@@ -11,9 +11,12 @@ export const ThemeContext = createContext(defaultState);
 class ThemeContextProvider extends Component {
   state = { ...defaultState };
 
+  toggleTheme = () => this.setState({ isLightTheme: !this.state.isLightTheme });
+
   render() {
+    const contextValues = { ...this.state, toggleTheme: this.toggleTheme };
     return (
-      <ThemeContext.Provider value={{ ...this.state }}>
+      <ThemeContext.Provider value={contextValues}>
         {this.props.children}
       </ThemeContext.Provider>
     );
