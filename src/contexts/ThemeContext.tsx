@@ -1,22 +1,28 @@
 import React, { createContext, Component } from "react";
 
-const defaultState = {
-  isLightTheme: true,
-  light: { syntax: "#555", ui: "#ddd", bg: "#eee" },
-  dark: { syntax: "#ddd", ui: "#333", bg: "#555" },
-};
+interface ThemeContextInterface {
+  isLightTheme: boolean;
+  light: { syntax: string; ui: string; bg: string };
+  dark: { syntax: string; ui: string; bg: string };
+  toggleTheme: () => void;
+}
 
-export const ThemeContext = createContext(defaultState);
+export const ThemeContext = createContext<ThemeContextInterface | null>(null);
 
 class ThemeContextProvider extends Component {
-  state = { ...defaultState };
+  state = {
+    isLightTheme: true,
+    light: { syntax: "#555", ui: "#ddd", bg: "#eee" },
+    dark: { syntax: "#ddd", ui: "#333", bg: "#555" },
+  };
 
   toggleTheme = () => this.setState({ isLightTheme: !this.state.isLightTheme });
 
   render() {
-    const contextValues = { ...this.state, toggleTheme: this.toggleTheme };
     return (
-      <ThemeContext.Provider value={contextValues}>
+      <ThemeContext.Provider
+        value={{ ...this.state, toggleTheme: this.toggleTheme }}
+      >
         {this.props.children}
       </ThemeContext.Provider>
     );
